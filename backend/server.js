@@ -12,7 +12,7 @@ const PORT = 4000;
 const IP = require('./ipHandler').ip;
 
 // Replace with your mongoLab URI
-const MONGO_URI = '';
+const MONGO_URI = 'mongodb://me:me@ds053798.mlab.com:53798/graphql-fullstack';
 
 // Mongoose's built in promise library is deprecated, replace it with ES2015 Promise
 mongoose.Promise = global.Promise;
