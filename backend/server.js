@@ -7,11 +7,10 @@ const passport = require('passport');
 const passportConfig = require('./services/auth');
 const MongoStore = require('connect-mongo')(session);
 const schema = require('./schema/schema');
-
+const cors = require('cors');
 const PORT = 4000;
 const IP = require('./ipHandler').ip;
 
-// Replace with your mongoLab URI
 const MONGO_URI = 'mongodb://me:me@ds053798.mlab.com:53798/graphql-fullstack';
 
 // Mongoose's built in promise library is deprecated, replace it with ES2015 Promise
@@ -38,6 +37,13 @@ app.use(
             url: MONGO_URI,
             autoReconnect: true
         })
+    })
+);
+
+app.use(
+    cors({
+        origin: 'http://localhost:3000',
+        credentials: true
     })
 );
 

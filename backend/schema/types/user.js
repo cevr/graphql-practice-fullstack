@@ -6,13 +6,15 @@ const {
     GraphQLInt,
     GraphQLSchema,
     GraphQLList,
-    GraphQLNonNull
+    GraphQLNonNull,
+    GraphQLID
 } = graphQL;
 
 const UserType = new GraphQLObjectType({
     name: 'UserType',
     fields: {
-        email: { type: new GraphQLNonNull(GraphQLString) }
+        id: { type: GraphQLID },
+        email: { type: GraphQLString }
     }
 });
 
