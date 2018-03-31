@@ -1,8 +1,7 @@
 import React, { PureComponent } from 'react';
 import { Link, withRouter } from 'react-router-dom';
-import { Query, Mutation } from 'react-apollo';
+import { Mutation } from 'react-apollo';
 
-import { CHECK_USER } from '../Apollo/queries';
 import { LOG_OUT } from '../Apollo/mutations';
 
 class Navigator extends PureComponent {
@@ -15,13 +14,24 @@ class Navigator extends PureComponent {
     };
     renderNavigator = props => {
         const { currentUser, client } = props;
-        console.log(props);
         return currentUser ? (
             <Mutation mutation={LOG_OUT}>
                 {logOut => (
-                    <nav className="flex justify-start pl4">
+                    <nav className="flex justify-between w-70 center">
+                        <div>
+                            <Link to="/" className="link pointer dim">
+                                Home
+                            </Link>
+
+                            <Link
+                                to="/dashboard"
+                                className="link pointer dim ml3"
+                            >
+                                Dashboard
+                            </Link>
+                        </div>
                         <a
-                            className="link pointer dim"
+                            className="link pointer dim ml3 "
                             onClick={() => this.logOutHandler(logOut, client)}
                         >
                             Logout
@@ -48,20 +58,15 @@ class Navigator extends PureComponent {
     };
     render() {
         const { location } = this.props;
-        return (
-            <Query query={CHECK_USER}>
-                {({ data: { currentUser }, loading, client }) => {
-                    return !loading ? (
-                        this.renderNavigator({
-                            pathname: location.pathname,
-                            currentUser,
-                            client
-                        })
-                    ) : (
-                        <div>Loading...</div>
-                    );
-                }}
-            </Query>
+        const { data: { currentUser }, loading, client } = this.props.queryData;
+        return !loading ? (
+            this.renderNavigator({
+                pathname: location.pathname,
+                currentUser,
+                client
+            })
+        ) : (
+            <div>Loading...</div>
         );
     }
 }

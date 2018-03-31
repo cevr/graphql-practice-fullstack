@@ -1,18 +1,22 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { Component } from 'react';
 import { Mutation } from 'react-apollo';
 
-class AuthForm extends PureComponent {
+class AuthForm extends Component {
     state = {
         email: '',
         password: ''
     };
+
     render() {
-        const { mutation, submitHandler } = this.props;
+        const { mutation, submitHandler, error } = this.props;
         const { email, password } = this.state;
         return (
             <Mutation mutation={mutation}>
                 {mutation => (
-                    <Fragment>
+                    <div
+                        className="flex flex-column ml3"
+                        style={{ width: '15rem' }}
+                    >
                         <label>Email</label>
                         <input
                             onChange={event =>
@@ -28,13 +32,21 @@ class AuthForm extends PureComponent {
                             type="password"
                         />
                         <button
+                            className="mt2"
+                            style={{ width: '100px' }}
                             onClick={() =>
                                 submitHandler({ mutation, email, password })
                             }
                         >
                             Submit
                         </button>
-                    </Fragment>
+                        {error &&
+                            error.map((error, index) => (
+                                <span key={index} className="red mt3 dim br1">
+                                    {error}
+                                </span>
+                            ))}
+                    </div>
                 )}
             </Mutation>
         );
